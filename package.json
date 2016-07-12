@@ -10,6 +10,9 @@
   ],
   "author": "Long Nguyen <long@nomadreact.com>",
   "license": "MIT",
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0"
+  },
   "dependencies": {
     "hammer-touchemulator": "0.0.2",
     "hammerjs": "^2.0.8",
@@ -25,6 +28,7 @@
     "eslint-plugin-jsx-a11y": "^1.0.4",
     "eslint-plugin-react": "^5.0.1",
     "mocha": "^2.4.5",
+    "react": "^15.2.1",
     "sinon": "^2.0.0-pre"
   },
   "scripts": {
