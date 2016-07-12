@@ -1,0 +1,35 @@
+{
+  "name": "react-native-hammerjs",
+  "version": "2.0.8",
+  "description": "HammerJS for React Native",
+  "main": "src/index.js",
+  "keywords": [
+    "react",
+    "native",
+    "hammerjs"
+  ],
+  "author": "Long Nguyen <long@nomadreact.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hammer-touchemulator": "0.0.2",
+    "hammerjs": "^2.0.8",
+    "lodash.clone": "^4.3.2",
+    "lodash.noop": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "chai": "^3.5.0",
+    "eslint": "^2.9.0",
+    "eslint-config-airbnb": "^8.0.0",
+    "eslint-plugin-import": "^1.6.1",
+    "eslint-plugin-jsx-a11y": "^1.0.4",
+    "eslint-plugin-react": "^5.0.1",
+    "mocha": "^2.4.5",
+    "sinon": "^2.0.0-pre"
+  },
+  "scripts": {
+    "lint": "eslint src test tools",
+    "test": "mocha --compilers js:babel-register",
+    "test:watch": "mocha --compilers js:babel-register --reporter min --watch"
+  }
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <style media="screen">
+      html, body {
+        padding: 0; margin: 0;
+      }
+      #touchpad {
+        width: 400px;
+        height: 400px;
+        background: #eee;
+        position: absolute;
+        top: 100px;
+        left: 300px;
+        cursor: default;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="../node_modules/hammerjs/hammer.js"></script>
+    <script src="../node_modules/hammer-touchemulator/touch-emulator.js"></script>
+    <script> TouchEmulator(); </script>
+    <script type="text/javascript">
+    const noop = () => {};
+    const eventHandlers = {
+      touchstart: noop,
+      touchmove: noop,
+      touchend: noop,
+      touchcancel: noop,
+    };
+    window.ontouchstart = noop;
+
+    $(document).ready(() => {
+      const fakeElement = {
+        addEventListener: (type, handler) => {
+          console.log('register event', type);
+          eventHandlers[type] = (event) => {
+            event.type = type;
+            // event.x = event.clientX = event.screenX = event.locationX;
+            // event.y = event.clientY = event.screenY = event.locationY;
+            // event.preventDefault = noop;
+            console.log('dispatching event', type, event);
+            handler(event);
+          };
+        },
+      };
+      const mc = new Hammer.Manager(fakeElement, {
+        touchAction: 'compute',
+        inputClass: Hammer.TouchInput
+      });
+      mc.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }) );
+      mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+
+      mc.on('pan', e => {
+        console.log('pan', e);
+      });
+
+      mc.on("doubletap", e => {
+        console.log('doubletap', e);
+      });
+
+      $('#touchpad').on('touchstart', e => {
+        e.type = 'touchstart';
+        eventHandlers.touchstart(e);
+      });
+      $('#touchpad').on('touchmove', e => {
+        e.type = 'touchmove';
+        eventHandlers.touchmove(e);
+      });
+      $('#touchpad').on('touchend', e => {
+        e.type = 'touchend';
+        eventHandlers.touchend(e);
+      });
+    });
+    </script>
+  </head>
+  <body>
+    <div id='touchpad'>
+    </div>
+  </body>
+</html>
