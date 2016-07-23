@@ -1,3 +1,6 @@
+import noop from 'lodash.noop';
+import clone from 'lodash.clone';
+
 /**
  * create an touch point
  * @constructor
@@ -11,7 +14,10 @@
 export class Touch {
   constructor(target, identifier, pos, deltaX = 0, deltaY = 0) {
     this.identifier = identifier;
-    this.target = target;
+    this.target = {
+      ...target,
+      addEventListener: noop,
+    };
     this.clientX = pos.locationX + deltaX;
     this.clientY = pos.locationY + deltaY;
     this.screenX = pos.locationX + deltaX;
@@ -140,8 +146,8 @@ export function buildTouchEvent(eventName, mouseEv) {
     currentTouchSession = new TouchSession(isMultiTouch, multiTouchStartPos);
   }
 
-  const touchEvent = new Event(eventName);
-  touchEvent.initEvent(eventName, true, true);
+  const touchEvent = clone(mouseEv);
+  touchEvent.eventName = eventName;
 
   touchEvent.altKey = mouseEv.altKey;
   touchEvent.ctrlKey = mouseEv.ctrlKey;
