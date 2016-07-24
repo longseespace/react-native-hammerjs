@@ -1,9 +1,10 @@
 # Hammer Native
-Hammer.JS for React Native.
+[Hammer.JS](http://hammerjs.github.io) for React Native. HammerJS is a javascript library for multi-touch gestures.
 
 [![Build Status](https://travis-ci.org/longseespace/react-native-hammerjs.svg?branch=master)](https://travis-ci.org/longseespace/react-native-hammerjs)
 [![npm](https://img.shields.io/npm/v/npm.svg?maxAge=2592000)](https://www.npmjs.com/package/react-native-hammerjs)
 [![hammer.js](https://img.shields.io/badge/hammer.js-v2.0.8-green.svg)](http://hammerjs.github.io)
+
 
 ## Installation
 `npm install --save react-native-hammerjs`
