@@ -23,26 +23,49 @@ import { injectGoBackButton } from './src/util';
 
 const VIEWS = [{
   name: 'Pan',
-  Component: injectGoBackButton(PanView)
+  Component: injectGoBackButton(PanView),
 }, {
   name: 'Swipe',
-  Component: injectGoBackButton(SwipeView)
+  Component: injectGoBackButton(SwipeView),
 }, {
   name: 'Tap',
-  Component: injectGoBackButton(TapView)
+  Component: injectGoBackButton(TapView),
 }, {
   name: 'DoubleTap',
-  Component: injectGoBackButton(DoubleTapView)
+  Component: injectGoBackButton(DoubleTapView),
 }, {
   name: 'Press',
-  Component: injectGoBackButton(PressView)
+  Component: injectGoBackButton(PressView),
 }, {
   name: 'Rotate',
-  Component: injectGoBackButton(RotateView)
+  Component: injectGoBackButton(RotateView),
 }, {
   name: 'Pinch',
-  Component: injectGoBackButton(PinchView)
-}]
+  Component: injectGoBackButton(PinchView),
+}];
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#e5e5e5',
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    borderWidth: 1,
+    borderRadius: 3,
+    width: 200,
+    marginTop: 5, marginBottom: 5,
+  },
+  buttonText: {
+    fontSize: 30,
+    textAlign: 'center',
+  },
+});
 
 class Example extends React.Component {
   state = {
@@ -73,28 +96,5 @@ class Example extends React.Component {
     );
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#e5e5e5',
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    borderWidth: 1,
-    borderRadius: 3,
-    width: 200,
-    marginTop: 5, marginBottom: 5,
-  },
-  buttonText: {
-    fontSize: 30,
-    textAlign: 'center'
-  },
-});
 
 AppRegistry.registerComponent('Example', () => Example);

@@ -4,49 +4,97 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight,
 } from 'react-native';
+import PanView from './src/pan-view';
+import SwipeView from './src/swipe-view';
+import TapView from './src/tap-view';
+import DoubleTapView from './src/double-tap-view';
+import PressView from './src/press-view';
+import RotateView from './src/rotate-view';
+import PinchView from './src/pinch-view';
+import { injectGoBackButton } from './src/util';
 
-class Example extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+const VIEWS = [{
+  name: 'Pan',
+  Component: injectGoBackButton(PanView),
+}, {
+  name: 'Swipe',
+  Component: injectGoBackButton(SwipeView),
+}, {
+  name: 'Tap',
+  Component: injectGoBackButton(TapView),
+}, {
+  name: 'DoubleTap',
+  Component: injectGoBackButton(DoubleTapView),
+}, {
+  name: 'Press',
+  Component: injectGoBackButton(PressView),
+}, {
+  name: 'Rotate',
+  Component: injectGoBackButton(RotateView),
+}, {
+  name: 'Pinch',
+  Component: injectGoBackButton(PinchView),
+}];
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#e5e5e5',
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  button: {
+    borderWidth: 1,
+    borderRadius: 3,
+    width: 200,
+    marginTop: 5, marginBottom: 5,
   },
-  instructions: {
+  buttonText: {
+    fontSize: 30,
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
+
+class Example extends React.Component {
+  state = {
+    currentView: false,
+  }
+  showView = Component => () => this.setState({ currentView: Component });
+  renderButtons() {
+    return VIEWS.map(({ name, Component }) => (
+      <TouchableHighlight key={name} style={styles.button} onPress={this.showView(Component)}>
+        <Text style={styles.buttonText}>{name}</Text>
+      </TouchableHighlight>
+    ));
+  }
+  goBack = () => this.setState({ currentView: false });
+  render() {
+    const ExampleView = this.state.currentView;
+    return (
+      <View style={styles.container}>
+        {
+          !ExampleView && <View style={styles.buttonContainer}>
+            {this.renderButtons()}
+          </View>
+        }
+        {
+          ExampleView && <ExampleView goBack={this.goBack}/>
+        }
+      </View>
+    );
+  }
+}
 
 AppRegistry.registerComponent('Example', () => Example);
