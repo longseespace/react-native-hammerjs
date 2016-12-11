@@ -20,39 +20,25 @@
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="../node_modules/hammerjs/hammer.js"></script>
     <script src="../node_modules/hammer-touchemulator/touch-emulator.js"></script>
+    <script src="event-target.js"></script>
     <script> TouchEmulator(); </script>
     <script type="text/javascript">
-    const noop = () => {};
-    const eventHandlers = {
-      touchstart: noop,
-      touchmove: noop,
-      touchend: noop,
-      touchcancel: noop,
-    };
-    window.ontouchstart = noop;
-
     $(document).ready(() => {
-      const fakeElement = {
-        addEventListener: (type, handler) => {
-          console.log('register event', type);
-          eventHandlers[type] = (event) => {
-            event.type = type;
-            // event.x = event.clientX = event.screenX = event.locationX;
-            // event.y = event.clientY = event.screenY = event.locationY;
-            // event.preventDefault = noop;
-            console.log('dispatching event', type, event);
-            handler(event);
-          };
-        },
-      };
-      const mc = new Hammer.Manager(fakeElement, {
+      const touchpad = document.getElementById('touchpad');
+      const target = new EventTarget();
+      const mc = new Hammer.Manager(target, {
         touchAction: 'compute',
         inputClass: Hammer.TouchInput
       });
       mc.add( new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 }) );
       mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+      mc.add( new Hammer.Pinch() );
 
-      mc.on('pan', e => {
+      mc.on("pinch", e => {
+        console.log('pinch', e);
+      });
+
+      mc.on("pan", e => {
         console.log('pan', e);
       });
 
@@ -60,18 +46,21 @@
         console.log('doubletap', e);
       });
 
-      $('#touchpad').on('touchstart', e => {
-        e.type = 'touchstart';
-        eventHandlers.touchstart(e);
-      });
-      $('#touchpad').on('touchmove', e => {
-        e.type = 'touchmove';
-        eventHandlers.touchmove(e);
-      });
-      $('#touchpad').on('touchend', e => {
-        e.type = 'touchend';
-        eventHandlers.touchend(e);
-      });
+      function proxyEvent(type) {
+        touchpad.addEventListener(type, (e) => {
+          const ev = Object.assign({}, e);
+          ev.type = type;
+          ev.target = target;
+          for (var i = 0; i < ev.touches.length; i++) {
+            ev.touches[i].target = target;
+          }
+          target.dispatchEvent(ev);
+        });
+      }
+      proxyEvent('touchstart');
+      proxyEvent('touchmove');
+      proxyEvent('touchend');
+      proxyEvent('touchcancel');
     });
     </script>
   </head>
