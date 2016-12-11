@@ -2,9 +2,9 @@ import React from 'react';
 import GestureRecognizer from './gesture-recognizer';
 
 /* eslint-disable no-unused-vars */
-const injectEventHandlers = (eventHandlers) => (element) => React.cloneElement(element, eventHandlers);
+const injectEventHandlers = eventHandlers => element => React.cloneElement(element, eventHandlers);
 
-export const injectHammer = OuterComponent => class extends React.Component {
+const injectHammer = OuterComponent => class extends React.Component {
   gestureRecognizer = new GestureRecognizer();
 
   render() {
@@ -17,3 +17,6 @@ export const injectHammer = OuterComponent => class extends React.Component {
     );
   }
 };
+
+export { injectHammer };
+export default injectHammer;

@@ -11,13 +11,10 @@ import clone from 'lodash.clone';
  * @param deltaY
  * @returns {Object} touchPoint
  */
-export class Touch {
+class Touch {
   constructor(target, identifier, pos, deltaX = 0, deltaY = 0) {
     this.identifier = identifier;
-    this.target = {
-      ...target,
-      addEventListener: noop,
-    };
+    this.target = target;
     this.clientX = pos.locationX + deltaX;
     this.clientY = pos.locationY + deltaY;
     this.screenX = pos.locationX + deltaX;
@@ -32,14 +29,14 @@ export class Touch {
  * @constructor
  * @returns touchList
  */
-export class TouchList {
+class TouchList {
   constructor() {
     const touchList = [];
 
-    touchList.item = (index) => this[index] || null;
+    touchList.item = index => this[index] || null;
 
     // specified by Mozilla
-    touchList.identifiedTouch = (id) => this[id + 1] || null;
+    touchList.identifiedTouch = id => this[id + 1] || null;
 
     return touchList;
   }
@@ -49,12 +46,12 @@ export class TouchList {
  * Simple trick to fake touch event support
  * this is enough for most libraries like Modernizr and Hammer
  */
-export function fakeTouchSupport() {
+function fakeTouchSupport() {
   const objs = [window, document.documentElement];
   const props = ['ontouchstart', 'ontouchmove', 'ontouchcancel', 'ontouchend'];
 
-  for (let o = 0; o < objs.length; o++) {
-    for (let p = 0; p < props.length; p++) {
+  for (let o = 0; o < objs.length; o += 1) {
+    for (let p = 0; p < props.length; p += 1) {
       if (objs[o] && objs[o][props[p]] === undefined) {
         objs[o][props[p]] = null;
       }
@@ -62,7 +59,7 @@ export function fakeTouchSupport() {
   }
 }
 
-export class TouchSession {
+class TouchSession {
   static multiTouchOffset = 75;
   multiTouchStartPos = {};
 
@@ -131,7 +128,7 @@ let currentTouchSession;
  * @param eventName
  * @param mouseEv
  */
-export function buildTouchEvent(eventName, mouseEv) {
+function buildTouchEvent(eventName, mouseEv) {
   if (eventName === 'touchstart') {
     const isMultiTouch = mouseEv.touches.length >= 2;
     const multiTouchStartPos = {
@@ -148,6 +145,7 @@ export function buildTouchEvent(eventName, mouseEv) {
 
   const touchEvent = clone(mouseEv);
   touchEvent.eventName = eventName;
+  touchEvent.preventDefault = noop;
 
   touchEvent.altKey = mouseEv.altKey;
   touchEvent.ctrlKey = mouseEv.ctrlKey;
@@ -164,3 +162,6 @@ export function buildTouchEvent(eventName, mouseEv) {
 
   return touchEvent;
 }
+
+export { fakeTouchSupport };
+export { buildTouchEvent };

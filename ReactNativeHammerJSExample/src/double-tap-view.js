@@ -7,26 +7,29 @@ import {
   Text,
 } from 'react-native';
 
-const IMAGE_WIDTH = 3229;
+// const IMAGE_WIDTH = 3229;
 const IMAGE_HEIGHT = 400;
 
 const styles = StyleSheet.create({
   touchpad: {
     backgroundColor: '#e5e5e5',
     position: 'absolute',
-    top: 0, left: 0, right: 0, bottom: 0
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   image: {
-    height: IMAGE_HEIGHT
+    height: IMAGE_HEIGHT,
   },
   pagination: {
     fontSize: 50,
     color: 'gray',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   active: {
-    color: 'red'
-  }
+    color: 'red',
+  },
 });
 
 const IMAGES = [
@@ -42,9 +45,9 @@ class GestureView extends React.Component {
 
   componentDidMount() {
     const mc = this.props.hammer;
-    mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+    mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     mc.on('doubletap', () => this.setState({
-      imgIndex: (this.state.imgIndex + 1) % IMAGES.length
+      imgIndex: (this.state.imgIndex + 1) % IMAGES.length,
     }));
   }
 
@@ -65,6 +68,6 @@ class GestureView extends React.Component {
       </View>
     );
   }
-};
+}
 
 export default injectHammer(GestureView);
