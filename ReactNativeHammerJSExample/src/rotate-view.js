@@ -6,7 +6,7 @@ import {
   Image
 } from 'react-native';
 
-const IMAGE_WIDTH = 3229;
+const IMAGE_WIDTH = 400;
 const IMAGE_HEIGHT = 400;
 
 const styles = StyleSheet.create({
@@ -45,7 +45,7 @@ class GestureView extends React.Component {
         <Image
           style={[styles.image, localStyles.transformed]}
           resizeMode='cover'
-          source={require('./pano-1.jpg')}
+          source={require('./ww.jpg')}
         />
       </View>
     );
