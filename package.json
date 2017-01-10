@@ -1,6 +1,6 @@
 {
   "name": "react-native-hammerjs",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "HammerJS for React Native",
   "main": "src/index.js",
   "keywords": [
